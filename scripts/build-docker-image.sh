@@ -8,3 +8,5 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 version_file="${SCRIPT_DIR}/../VERSION"
 version=$(head $version_file)
 echo "And the version is: ${version}"
+
+docker build -t "data-extraction-service:${version}" -f Dockerfile .
