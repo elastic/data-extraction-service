@@ -7,5 +7,6 @@ agents:
 steps:
   - label: ":whale::hammer: Build docker image"
     command: "scripts/build-docker-image.sh"
+  - wait
   - label: ":whale::rocket: Publish docker image"
     command: "scripts/publish-docker-image.sh"
