@@ -3,5 +3,5 @@
 
 ## 🏠/.buildkite/pipeline.yml
 steps:
-  - label: ":wave: Greetings"
-    command: "echo 'My first pipeline!'"
+  - label: ":whale: Build docker image"
+    command: "scripts/build-docker-image.sh"
