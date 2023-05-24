@@ -5,5 +5,5 @@ agents:
   provider: "gcp"
 
 steps:
-  - label: ":whale::hammer: Build docker image"
+  - label: ":whale: Build docker image"
     command: "scripts/build-and-publish-docker-image.sh"

@@ -6,7 +6,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 VERSION_FILE="${SCRIPT_DIR}/../VERSION"
 VERSION=$(head $VERSION_FILE)
 
-DOCKER_IMAGE_BASE="docker.elastic.co"
+DOCKER_IMAGE_BASE="docker.elastic.co/swiftype"
 BASE_IMAGE_TAG="data-extraction-service:${VERSION}"
 BASE_IMAGE_TAG_FINAL="$DOCKER_IMAGE_BASE/$BASE_IMAGE_TAG"
 
