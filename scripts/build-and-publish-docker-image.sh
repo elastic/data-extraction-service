@@ -18,3 +18,5 @@ echo "Logging into docker..."
 
 echo "Publishing the docker image..."
 docker push "$BASE_IMAGE_TAG_FINAL"
+
+/bin/bash "${SCRIPT_DIR}/docker-logout.sh"
