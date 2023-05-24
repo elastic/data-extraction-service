@@ -1,8 +1,0 @@
-#!/bin/bash
-
-VERSION_FILE="${SCRIPT_DIR}/../VERSION"
-VERSION=$(head $VERSION_FILE)
-
-DOCKER_IMAGE_BASE="docker.elastic.co"
-BASE_IMAGE_TAG="data-extraction-service:${VERSION}"
-BASE_IMAGE_TAG_FINAL="$DOCKER_IMAGE_BASE/$BASE_IMAGE_TAG"
