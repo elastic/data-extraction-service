@@ -1,0 +1,6 @@
+#!/sbin/openrc-run
+
+command="/usr/local/openresty/bin/openresty"
+command_args="-g \"daemon off;\""
+command_background=true
+pidfile="/var/run/${RC_SVCNAME}.pid"
