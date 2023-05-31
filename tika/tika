@@ -4,5 +4,3 @@ command="java"
 command_args="-jar -Dlog4j.configurationFile=/app/log4j2.xml /app/tika-server-standard-2.8.0.jar > /var/log/tika-server.log"
 command_background=true
 pidfile="/var/run/${RC_SVCNAME}.pid"
-# output_log="/var/log/tika-server.log"
-# todo ^ this isn't working
