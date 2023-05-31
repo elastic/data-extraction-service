@@ -18,6 +18,11 @@ $ docker stop extraction-service
 $ docker rm extraction-service
 ```
 
+Call the running service to extract your content
+```sh
+$ curl -F upload=@/path/to/file.name http://localhost:8090/extract_text/ -H "Accept: application/json" | jq
+```
+
 ## Logging
 
-Openresty logs: `/var/log/openresty.log`
+Openresty logs: `/var/log/openresty.log` and `/var/log/openresty_errors.log`
