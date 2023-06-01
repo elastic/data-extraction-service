@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_ERR">
+      <PatternLayout pattern="%-5p [%t] %d{HH:mm:ss,SSS} %c %m%n"/>
+    </Console>
+    <File name="File" fileName="/var/log/tika.log">
+      <PatternLayout pattern="%d{yyyyMMdd HH:mm:ss} - %m%n"/>
+    </File>
+  </Appenders>
+  <Loggers>
+    <Logger name="org.eclipse.jetty.util.log.Slf4jLog" level="debug">
+      <AppenderRef ref="File"/>
+    </Logger>
+    <Root level="all">
+      <AppenderRef ref="Console"/>
+    </Root>
+  </Loggers>
+</Configuration>

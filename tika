@@ -1,6 +1,0 @@
-#!/sbin/openrc-run
-
-command="java"
-command_args="-jar /app/tika-server-standard-2.8.0.jar"
-command_background=true
-pidfile="/var/run/${RC_SVCNAME}.pid"
