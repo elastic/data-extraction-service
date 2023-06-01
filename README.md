@@ -24,9 +24,15 @@ $ docker rm extraction-service
 
 ## Usage
 
-Call the running service to extract file content:
+To send a file to be extracted:
 ```sh
 $ curl -F upload=@/path/to/file.name http://localhost:8090/extract_text/ -H "Accept: application/json" | jq
+```
+
+To extract a file locally, it must first be added to the docker container. All local extraction is done from the `/tmp` directory, so the file should be placed there.
+```sh
+$ docker cp /path/to/file.name extraction-service:tmp/file.name
+$ curl -X PUT http://localhost:8090/extract_local_file_text/?local_file_path=file.name -H "Accept: application/json" | jq
 ```
 
 ## Logging
