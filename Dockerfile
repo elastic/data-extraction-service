@@ -19,6 +19,7 @@ COPY tika/log4j2.xml log4j2.xml
 COPY tika/tika-config.xml tika-config.xml
 COPY nginx/openresty /etc/init.d/openresty
 COPY nginx/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+COPY nginx/tika-response.lua lua/tika-response.lua
 
 RUN chmod +x /etc/init.d/tika
 RUN chmod +x /etc/init.d/openresty
