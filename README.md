@@ -5,20 +5,26 @@ This docker image runs [openresty](https://openresty.org/en/getting-started.html
 
 ## Local Setup
 
-Run locally with
-
+Build:
 ```sh
 $ docker build --platform=linux/arm64 -t extraction-service .
-$ docker run -p 8090:8090 -it --rm --name extraction-service extraction-service
 ```
 
-To remove the container (for example to re-run and test changes)
+Run:
+```sh
+$ docker run -p 8090:8090 -it --name extraction-service extraction-service
+```
+(Add `-d` to run detached, or `--rm` if you want the docker container to be deleted when you exit the window)
+
+To remove the detached container:
 ```sh
 $ docker stop extraction-service
 $ docker rm extraction-service
 ```
 
-Call the running service to extract your content
+## Usage
+
+Call the running service to extract file content:
 ```sh
 $ curl -F upload=@/path/to/file.name http://localhost:8090/extract_text/ -H "Accept: application/json" | jq
 ```
