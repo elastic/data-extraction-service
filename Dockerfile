@@ -14,12 +14,10 @@ RUN wget https://downloads.apache.org/tika/2.8.0/tika-server-standard-2.8.0.jar
 
 # file setup
 COPY runner.sh runner.sh
-COPY tika/tika /etc/init.d/tika
-COPY tika/log4j2.xml log4j2.xml
-COPY tika/tika-config.xml tika-config.xml
-COPY nginx/openresty /etc/init.d/openresty
+COPY tika/ .
+COPY openrc/ /etc/init.d/
 COPY nginx/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-COPY nginx/tika-response.lua lua/tika-response.lua
+COPY nginx/lua/ lua/
 
 RUN chmod +x /etc/init.d/tika
 RUN chmod +x /etc/init.d/openresty
