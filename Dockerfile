@@ -23,12 +23,6 @@ COPY nginx/tika-response.lua lua/tika-response.lua
 
 RUN chmod +x /etc/init.d/tika
 RUN chmod +x /etc/init.d/openresty
-RUN chmod +x runner.sh
-RUN chmod +x tika-server-standard-2.8.0.jar
-RUN chown root:root /etc/init.d/tika
-RUN chown root:root /etc/init.d/openresty
-RUN chown root:root runner.sh
-RUN chown root:root tika-server-standard-2.8.0.jar
 
 # run tika and openresty as services
 CMD ["/bin/sh", "-C", "runner.sh"]
