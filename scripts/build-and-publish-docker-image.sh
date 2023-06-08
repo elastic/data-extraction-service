@@ -2,21 +2,14 @@
 
 set -ex
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-VERSION_FILE="${SCRIPT_DIR}/../VERSION"
-VERSION=$(head $VERSION_FILE)
-
-DOCKER_IMAGE_BASE="docker.elastic.co/swiftype"
-BASE_IMAGE_TAG="data-extraction-service:${VERSION}"
-BASE_IMAGE_TAG_FINAL="$DOCKER_IMAGE_BASE/$BASE_IMAGE_TAG"
-
-echo "Building the docker image..."
-docker build -t "$BASE_IMAGE_TAG_FINAL" -f Dockerfile .
+VAULT_ADDR=${VAULT_ADDR:-https://vault-ci-prod.elastic.dev}
+VAULT_USER="docker-swiftypeadmin"
+echo "Fetching Docker credentials for '$VAULT_USER' from Vault..."
+DOCKER_USER=$(vault read -address "${VAULT_ADDR}" -field login secret/ci/elastic-data-extraction-service/${VAULT_USER})
+DOCKER_PASSWORD=$(vault read -address "${VAULT_ADDR}" -field password secret/ci/elastic-data-extraction-service/${VAULT_USER})
 
 echo "Logging into docker..."
-/bin/bash "${SCRIPT_DIR}/docker-login.sh"
+buildah login --username="${DOCKER_USER}" --password="${DOCKER_PASSWORD}" docker.elastic.co
 
-echo "Publishing the docker image..."
-docker push "$BASE_IMAGE_TAG_FINAL"
-
-/bin/bash "${SCRIPT_DIR}/docker-logout.sh"
+echo "Building and publishing the docker image..."
+drivah build --push .

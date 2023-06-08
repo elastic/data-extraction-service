@@ -2,7 +2,7 @@
 # $yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
 
 agents:
-  provider: "gcp"
+  image: "docker.elastic.co/ci-agent-images/drivah:0.18.1"
 
 steps:
   - label: ":whale: Build docker image"
