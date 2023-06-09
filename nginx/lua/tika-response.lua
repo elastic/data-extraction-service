@@ -11,11 +11,11 @@ end
 if eof then
     local whole = table.concat(buffered)
     ngx.ctx.buffered = nil
-    -- TODO parse json here
     local cjson = require "cjson"
     local body = cjson.decode(whole)
+    -- TODO add more response data
     local response = cjson.encode({
-        extracted_text = body["X-TIKA:content"]
+        extracted_text = body[1]["X-TIKA:content"]
     })
     ngx.arg[1] = response
 end
