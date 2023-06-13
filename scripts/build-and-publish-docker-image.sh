@@ -1,9 +1,6 @@
 #!/bin/bash
 
-# DO NOT SET -x
-# This script fetches and assigns credentials to variables. -x would cause those creds to be printed in logs
 set -ex
-# DO NOT SET -x
 
 VAULT_ADDR=${VAULT_ADDR:-https://vault-ci-prod.elastic.dev}
 VAULT_USER="docker-swiftypeadmin"
