@@ -14,14 +14,13 @@ logging.basicConfig(level=logging.INFO)
 async def logs_on_error():
     try:
         yield
-    except Exception:
+    finally:
         log_dir = "/var/log/"
         target_dir = "log"
         docker_cp = "docker cp extraction-service"
 
         os.makedirs(target_dir, exist_ok=True)
 
-        os.system('docker exec -it extraction-service ls /app/files')
 
         # copy over all logs files
         for log_file in (
@@ -32,9 +31,6 @@ async def logs_on_error():
         ):
             cmd = f"docker cp extraction-service:{log_dir}/{log_file} {target_dir}/{log_file}"
             os.system(cmd)
-
-        logger.critical(f"test failed check logs in {log_dir}")
-        raise
 
 
 @logs_on_error()
@@ -57,8 +53,10 @@ async def main():
             # XXX assert the result of the extraction
             assert resp.status == 200
             result = await resp.json()
+            print(result)
 
     logger.info("OK")
+
 
 
 if __name__ == "__main__":
