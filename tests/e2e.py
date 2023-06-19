@@ -41,16 +41,17 @@ async def main():
     logger.info(f"Calling {ROOT}")
     async with aiohttp.ClientSession() as session:
         async with session.get(ROOT) as resp:
-            logger.info(await resp.text().strip())
+            logger.info((await resp.text()).strip())
             assert resp.status == 200
 
     logger.info("OK")
 
     # extracting a pdf
-    url = f"{ROOT}/extract_local_file_text/?local_file_path=sample.pdf"
+    url = f"{ROOT}/extract_local_file_text/"
+    params = {'local_file_path': 'sample.pdf'}
 
     async with aiohttp.ClientSession() as session:
-        async with session.put(url, headers={"Accept": "application/json"}) as resp:
+        async with session.post(url, json=params, headers={"Accept": "application/json"}) as resp:
             # XXX assert the result of the extraction
             logger.info(await resp.text())
             assert resp.status == 200
