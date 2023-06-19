@@ -53,7 +53,7 @@ async def main():
             # XXX assert the result of the extraction
             assert resp.status == 200
             result = await resp.json()
-            print(result)
+            print(result['parsed_by'])
 
     logger.info("OK")
 
