@@ -21,7 +21,7 @@ async def logs_on_error():
 
         os.makedirs(target_dir, exist_ok=True)
 
-        os.system('docker exec -it extraction-service ls /tmp')
+        os.system('docker exec -it extraction-service ls /app/files')
 
         # copy over all logs files
         for log_file in (
@@ -49,14 +49,14 @@ async def main():
     logger.info("OK")
 
     # extracting a pdf
-    url = f"{ROOT}/extract_local_file_text/"
-    params = {'local_file_path': '/tmp/sample.pdf'}
+    url = f"{ROOT}/extract_local_file_text/?local_file_path=/app/files/sample.pdf"
+    params = {}
 
     async with aiohttp.ClientSession() as session:
-        async with session.put(url, json=params, headers={"Accept": "application/json"}) as resp:
+        async with session.put(url, json=params) as resp:
             # XXX assert the result of the extraction
-            logger.info(await resp.text())
             assert resp.status == 200
+            result = await resp.json()
 
     logger.info("OK")
 
