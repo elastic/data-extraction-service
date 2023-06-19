@@ -51,7 +51,7 @@ async def main():
     params = {'local_file_path': 'sample.pdf'}
 
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, json=params, headers={"Accept": "application/json"}) as resp:
+        async with session.put(url, json=params, headers={"Accept": "application/json"}) as resp:
             # XXX assert the result of the extraction
             logger.info(await resp.text())
             assert resp.status == 200
