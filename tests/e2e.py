@@ -21,6 +21,8 @@ async def logs_on_error():
 
         os.makedirs(target_dir, exist_ok=True)
 
+        os.system('docker exec -it extraction-service ls /tmp')
+
         # copy over all logs files
         for log_file in (
             "openresty_errors.log",
@@ -48,7 +50,7 @@ async def main():
 
     # extracting a pdf
     url = f"{ROOT}/extract_local_file_text/"
-    params = {'local_file_path': 'sample.pdf'}
+    params = {'local_file_path': '/tmp/sample.pdf'}
 
     async with aiohttp.ClientSession() as session:
         async with session.put(url, json=params, headers={"Accept": "application/json"}) as resp:
