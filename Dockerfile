@@ -9,7 +9,7 @@ RUN mkdir /run/openrc\
   && touch /run/openrc/softlevel
 
 # get services we need
-RUN apk add openrc openjdk8
+RUN apk add --no-cache openrc openjdk8
 RUN wget https://downloads.apache.org/tika/2.8.0/tika-server-standard-2.8.0.jar
 
 # file setup
