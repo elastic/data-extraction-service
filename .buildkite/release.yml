@@ -1,0 +1,9 @@
+---
+# $yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
+
+agents:
+  image: "docker.elastic.co/ci-agent-images/drivah:0.18.1"
+
+steps:
+  - label: "placeholder"
+    command: "echo 'this is a placeholder'"
