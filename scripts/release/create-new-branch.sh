@@ -1,15 +1,19 @@
 #!/bin/bash
 set -ex
 
+GIT_BRANCH=${BUILDKITE_BRANCH}
+
+git switch -
+git checkout $GIT_BRANCH
+git pull origin $GIT_BRANCH
+git config --local user.email $BUILDKITE_BUILD_CREATOR_EMAIL
+git config --local user.name $BUILDKITE_BUILD_CREATOR
+
 VERSION=`cat ./VERSION`
 VERSION_MAJOR="${VERSION%%\.*}"
 VERSION_MINOR="${VERSION#*.}"
 VERSION_MINOR="${VERSION_MINOR%.*}"
 VERSION_PATCH="${VERSION##*.}"
-GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
-
-git config --local user.email $BUILDKITE_BUILD_CREATOR_EMAIL
-git config --local user.name $BUILDKITE_BUILD_CREATOR
 
 if [[ "$VERSION" == *.0 ]]; then
   NEW_BRANCH=$(echo "$VERSION" | sed "s/.0\$//")
