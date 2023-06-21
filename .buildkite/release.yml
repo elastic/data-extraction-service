@@ -7,7 +7,9 @@ agents:
 steps:
   - label: ":github: update version and tag"
     command: "scripts/release/update-release-version.sh"
+  - wait
   - label: ":whale: Build docker image"
     command: "scripts/build-and-publish-docker-image.sh"
+  - wait
   - label: ":github: create new maintenance branch"
     command: "scripts/release/create-new-branch.sh"
