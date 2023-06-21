@@ -8,6 +8,9 @@ VERSION_MINOR="${VERSION_MINOR%.*}"
 VERSION_PATCH="${VERSION##*.}"
 GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
 
+git config --local user.email $BUILDKITE_BUILD_CREATOR_EMAIL
+git config --local user.name $BUILDKITE_BUILD_CREATOR
+
 if [[ "$VERSION" == *.0 ]]; then
   NEW_BRANCH=$(echo "$VERSION" | sed "s/.0\$//")
   echo "Creating new branch: ${NEW_BRANCH}"
