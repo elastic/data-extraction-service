@@ -11,7 +11,6 @@ metadata:
   links:
     - title: Pipeline
       url: https://buildkite.com/elastic/data-extraction-service
-
 spec:
   type: buildkite-pipeline
   owner: group:ingestion-team
@@ -39,8 +38,8 @@ metadata:
   name: "data-extraction-service-release"
   description: "Data Extraction Service release"
   links:
-    - title: "Data Extraction Service Buildkite Jobs"
-      url: "https://buildkite.com/elastic/data-extraction-service"
+    - title: "Data Extraction Service Buildkite release Jobs"
+      url: "https://buildkite.com/elastic/data-extraction-service-release"
 spec:
   type: "buildkite-pipeline"
   owner: "group:ingestion-team"
