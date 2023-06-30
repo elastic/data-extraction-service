@@ -46,7 +46,7 @@ if eof then
 
     elseif ngx.status == 422 then
         response["error"] = "Unprocessable Entity"
-        response["message"] = "Tikaserver could not process file. File may be corrupt."
+        response["message"] = "Tikaserver could not process file. File may be corrupt or encrypted."
     else
         response["error"] = "Unexpected Extraction Failure"
         response["message"] = "Tikaserver could not extract the file content."
