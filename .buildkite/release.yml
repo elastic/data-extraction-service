@@ -1,0 +1,15 @@
+---
+# $yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
+
+agents:
+  image: "docker.elastic.co/ci-agent-images/drivah:0.18.1"
+
+steps:
+  - label: ":github: update version and tag"
+    command: "scripts/release/update-release-version.sh"
+  - wait
+  - label: ":whale: Build docker image"
+    command: "scripts/build-and-publish-docker-image.sh"
+  - wait
+  - label: ":github: create new maintenance branch"
+    command: "scripts/release/create-new-branch.sh"

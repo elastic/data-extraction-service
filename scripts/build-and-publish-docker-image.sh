@@ -2,6 +2,8 @@
 
 set -ex
 
+source scripts/git-setup.sh
+
 VAULT_ADDR=${VAULT_ADDR:-https://vault-ci-prod.elastic.dev}
 VAULT_USER="docker-swiftypeadmin"
 echo "Fetching Docker credentials for '$VAULT_USER' from Vault..."
