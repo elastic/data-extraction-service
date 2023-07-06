@@ -25,8 +25,11 @@ $ docker rm extraction-service
 ## Usage
 
 To send a file to be extracted:
-```sh
-$ curl -F upload=@/path/to/file.name http://localhost:8090/extract_text/ -H "Accept: application/json" | jq
+```zsh
+$ curl -X PUT http://localhost:8090/extract_text/ \
+  --data-binary @/path/to/file.name \
+  -H "Content-Type: application/octet-stream" \
+  -H "Accept: application/json" | jq
 ```
 
 To extract a file locally, it must first be added to the docker container. All local extraction is done from the `/tmp` directory, so the file should be placed there.
@@ -38,3 +41,4 @@ $ curl -X PUT http://localhost:8090/extract_local_file_text/?local_file_path=fil
 ## Logging
 
 Openresty logs: `/var/log/openresty.log` and `/var/log/openresty_errors.log`
+Tikaserver logs: `/var/log/tikaserver.log`
