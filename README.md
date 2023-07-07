@@ -32,13 +32,14 @@ $ curl -X PUT http://localhost:8090/extract_text/ \
   -H "Accept: application/json" | jq
 ```
 
-To extract a file locally, it must first be added to the docker container. All local extraction is done from the `/tmp` directory, so the file should be placed there.
+To extract a file locally, it must first be added to the docker container. You must specify the full filepath in the `local_file_path` argument.
 ```sh
-$ docker cp /path/to/file.name extraction-service:tmp/file.name
-$ curl -X PUT http://localhost:8090/extract_local_file_text/?local_file_path=file.name -H "Accept: application/json" | jq
+$ docker cp /path/to/file.name extraction-service:/app/file.name
+$ curl -X PUT http://localhost:8090/extract_local_file_text/?local_file_path=/app/file.name -H "Accept: application/json" | jq
 ```
 
 ## Logging
 
-Openresty logs: `/var/log/openresty.log` and `/var/log/openresty_errors.log`
-Tikaserver logs: `/var/log/tikaserver.log`
+- Openresty logs: `/var/log/openresty.log`
+- Openresty error logs: `/var/log/openresty_errors.log`
+- Tikaserver java logs: `/var/log/tikaserver.log`

@@ -92,7 +92,7 @@
     <fetcher class="org.apache.tika.pipes.fetcher.fs.FileSystemFetcher">
       <params>
         <name>fsf</name>
-        <basePath>/tmp</basePath>
+        <basePath>/</basePath>
       </params>
     </fetcher>
   </fetchers>
