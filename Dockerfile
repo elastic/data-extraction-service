@@ -22,7 +22,7 @@ RUN ln -sf /app/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 RUN chmod +x /etc/init.d/tika
 RUN chmod +x /etc/init.d/openresty
 
-HEALTHCHECK CMD curl --fail http://localhost:8090/ || exit 1
+HEALTHCHECK CMD curl --fail http://localhost:8090/ping/ || exit 1
 
 # run tika and openresty as services
 CMD ["/bin/sh", "-C", "runner.sh"]

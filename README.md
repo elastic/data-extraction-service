@@ -32,13 +32,26 @@ $ curl -X PUT http://localhost:8090/extract_text/ \
   -H "Accept: application/json" | jq
 ```
 
-To extract a file locally, it must first be added to the docker container. All local extraction is done from the `/tmp` directory, so the file should be placed there.
+To extract a file locally, it must first be added to the docker container. You can manually do this using `docker cp` or you can mount a volume to share files with a different system.
+You must specify the full filepath in the `local_file_path` argument.
+Note: avoid using only `/app` as your chosen filedrop path. If a config file is overwritten in this directory, data-extraction-service may break. If you intend to use `/app`, be sure to append a further directory, e.g. `/app/files`.
+
+With `docker cp`
 ```sh
-$ docker cp /path/to/file.name extraction-service:tmp/file.name
-$ curl -X PUT http://localhost:8090/extract_local_file_text/?local_file_path=file.name -H "Accept: application/json" | jq
+$ docker run -p 8090:8090 -it --name extraction-service extraction-service
+$ docker cp /path/to/file.name extraction-service:/app/files/file.name
+$ curl -X PUT http://localhost:8090/extract_text/?local_file_path=/app/files/file.name -H "Accept: application/json" | jq
 ```
+
+With volume sharing.
+```sh
+$ docker run -p 8090:8090 -it --name extraction-service -v /local/file/location:/app/files extraction-service
+```
+
+For volume sharing, `/local/file/location:/app/files` can also be replaced with `docker-volume-name:/app/files` if you intend to share files between two docker containers. Check the [docker volume docs](https://docs.docker.com/storage/volumes/) for more details. Doing this will also require a [shared network](https://docs.docker.com/engine/reference/commandline/network_connect/).
 
 ## Logging
 
-Openresty logs: `/var/log/openresty.log` and `/var/log/openresty_errors.log`
-Tikaserver logs: `/var/log/tikaserver.log`
+- Openresty logs: `/var/log/openresty.log`
+- Openresty error logs: `/var/log/openresty_errors.log`
+- Tikaserver java logs: `/var/log/tikaserver.log`
