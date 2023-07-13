@@ -7,3 +7,7 @@ agents:
 steps:
   - label: ":whale: Build docker image"
     command: "scripts/build-and-publish-docker-image.sh"
+
+steps:
+  - label: ":pytest: e2e tests"
+    command: "make e2e"
