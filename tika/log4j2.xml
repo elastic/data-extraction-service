@@ -9,10 +9,10 @@
     </File>
   </Appenders>
   <Loggers>
-    <Logger name="org.eclipse.jetty.util.log.Slf4jLog" level="debug">
+    <Logger name="org.eclipse.jetty.util.log.Slf4jLog" level="info">
       <AppenderRef ref="File"/>
     </Logger>
-    <Root level="all">
+    <Root level="info">
       <AppenderRef ref="Console"/>
     </Root>
   </Loggers>

@@ -14,4 +14,4 @@ e2e: bin/python
 	docker build --platform=linux/arm64 -t extraction-service .
 	docker run -v $(current_dir)/tests/samples:/app/files -d -p 8090:8090 -it --name extraction-service extraction-service
 	sleep 5
-	bin/python3 tests/e2e.py
+	bin/python3 -m pytest tests/

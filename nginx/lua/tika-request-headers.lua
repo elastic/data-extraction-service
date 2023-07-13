@@ -9,4 +9,6 @@ if fetchKey then
 
     args.local_file_path = nil
     ngx.req.set_uri_args(args)
+else
+    ngx.log(ngx.STDERR, "No fetch key")
 end
