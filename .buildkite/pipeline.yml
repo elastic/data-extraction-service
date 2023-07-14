@@ -16,5 +16,4 @@ steps:
 
 steps:
   - label: ":pytest: e2e tests"
-  - command:
-    - ".buildkite/run_dockerized_test.sh"
+    command: ".buildkite/run_dockerized_test.sh"
