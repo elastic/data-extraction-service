@@ -9,7 +9,7 @@ RUN mkdir /run/openrc\
   && touch /run/openrc/softlevel
 
 # get services we need
-RUN apk add --no-cache openrc openjdk8 curl ffmpeg exiftool tesseract-ocr imagemagick
+RUN apk add --no-cache openrc openjdk8 curl
 RUN wget https://downloads.apache.org/tika/2.8.0/tika-server-standard-2.8.0.jar
 
 # file setup
