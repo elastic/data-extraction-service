@@ -27,9 +27,18 @@ $ docker rm extraction-service
 To send a file to be extracted:
 ```zsh
 $ curl -X PUT http://localhost:8090/extract_text/ \
-  --data-binary @/path/to/file.name \
-  -H "Content-Type: application/octet-stream" \
-  -H "Accept: application/json" | jq
+  -T /path/to/file.name
+```
+
+This will return a response like the following:
+```json
+{
+  "extracted_text": "Hello world!",
+  "_meta": {
+    "X-ELASTIC:service": "tika",
+    "X-ELASTIC:TIKA:parsed_by": ["parser1", "parser2"]
+  }
+}
 ```
 
 To extract a file locally, it must first be added to the docker container. You can manually do this using `docker cp` or you can mount a volume to share files with a different system.
@@ -40,7 +49,7 @@ With `docker cp`
 ```sh
 $ docker run -p 8090:8090 -it --name extraction-service extraction-service
 $ docker cp /path/to/file.name extraction-service:/app/files/file.name
-$ curl -X PUT http://localhost:8090/extract_text/?local_file_path=/app/files/file.name -H "Accept: application/json" | jq
+$ curl -X PUT http://localhost:8090/extract_text/?local_file_path=/app/files/file.name | jq
 ```
 
 With volume sharing.
@@ -53,5 +62,4 @@ For volume sharing, `/local/file/location:/app/files` can also be replaced with 
 ## Logging
 
 - Openresty logs: `/var/log/openresty.log`
-- Openresty error logs: `/var/log/openresty_errors.log`
-- Tikaserver java logs: `/var/log/tikaserver.log`
+- Tikaserver java logs: `/var/log/tika.log`

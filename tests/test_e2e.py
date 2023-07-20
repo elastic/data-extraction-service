@@ -34,10 +34,8 @@ async def logs_on_error():
 
         # copy over all logs files
         for log_file in (
-            "openresty_errors.log",
             "openresty.log",
             "tika.log",
-            "tikaserver.log",
         ):
             cmd = f"docker cp extraction-service:{log_dir}/{log_file} {target_dir}/{log_file}"
             os.system(cmd)
@@ -46,14 +44,11 @@ async def logs_on_error():
 @logs_on_error()
 @pytest.mark.asyncio
 async def test_service_running():
-    # pinging root
-    logger.info(f"Calling {ROOT}")
     async with aiohttp.ClientSession() as session:
         async with session.get(ROOT) as resp:
             logger.info((await resp.text()).strip())
             assert resp.status == 200
 
-    logger.info("OK")
 
 @logs_on_error()
 @pytest.mark.asyncio
@@ -67,20 +62,20 @@ async def test_service_running():
     ]
 )
 async def test_extraction_parsed_correctly(file_name, expected_parser):
-    # extracting with filepointer
     async with aiohttp.ClientSession() as session:
         async with session.put(f"{EXTRACT_TEXT_URL}?local_file_path=/app/files/{file_name}") as resp:
             assert resp.status == 200
             result = await resp.json()
-            assert expected_parser in result["parsed_by"]
+            assert result["_meta"]["X-ELASTIC:service"] == "tika"
+            assert expected_parser in result["_meta"]["X-ELASTIC:TIKA:parsed_by"]
 
-    # extracting with filesend
     async with aiohttp.ClientSession() as session:
         filepath = os.path.abspath(f"./tests/samples/{file_name}")
         async with session.put(EXTRACT_TEXT_URL, data=filesender(filepath)) as resp:
             assert resp.status == 200
             result = await resp.json()
-            assert expected_parser in result["parsed_by"]
+            assert result["_meta"]["X-ELASTIC:service"] == "tika"
+            assert expected_parser in result["_meta"]["X-ELASTIC:TIKA:parsed_by"]
 
 @logs_on_error()
 @pytest.mark.asyncio
@@ -91,6 +86,7 @@ async def test_extraction_with_corrupt_file_returns_422():
         async with session.put(f"{EXTRACT_TEXT_URL}?local_file_path=/app/files/{file_name}") as resp:
             assert resp.status == 422
             result = await resp.json(content_type=None)
+            assert result["_meta"]["X-ELASTIC:service"] == "tika"
             assert result["message"] == "Tikaserver could not process file. File may be corrupt or encrypted."
 
 
@@ -99,4 +95,5 @@ async def test_extraction_with_corrupt_file_returns_422():
         async with session.put(EXTRACT_TEXT_URL, data=filesender(filepath)) as resp:
             assert resp.status == 422
             result = await resp.json(content_type=None)
+            assert result["_meta"]["X-ELASTIC:service"] == "tika"
             assert result["message"] == "Tikaserver could not process file. File may be corrupt or encrypted."
