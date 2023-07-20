@@ -1,3 +1,11 @@
 # jetbrains
 *.iml
 .idea
+
+# project
+lib/*
+bin/*
+!test/log/*.log
+
+# mac
+.DS_Store

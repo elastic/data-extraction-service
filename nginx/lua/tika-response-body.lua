@@ -17,7 +17,7 @@ if eof then
 
     if ngx.status == 200 then
         local body = cjson.decode(whole)
-        
+
         if not body["X-TIKA:content"] then
             for k, v in pairs(body) do
                 if string.find(k, "X-TIKA:EXCEPTION") then
@@ -32,6 +32,7 @@ if eof then
                     end
                     response["error"] = "Content Extraction Error"
                     response["message"] = k .. " - " .. message
+                    ngx.log(ngx.STDERR, response["error"])
                     break
                 end
             end
@@ -41,15 +42,17 @@ if eof then
                 response["extracted_text"] = ""
             end
         else
+            response["parsed_by"] = body["X-TIKA:Parsed-By"]
             response["extracted_text"] = body["X-TIKA:content"]
         end
-
     elseif ngx.status == 422 then
         response["error"] = "Unprocessable Entity"
         response["message"] = "Tikaserver could not process file. File may be corrupt or encrypted."
+        ngx.log(ngx.STDERR, response["error"])
     else
         response["error"] = "Unexpected Extraction Failure"
         response["message"] = "Tikaserver could not extract the file content."
+        ngx.log(ngx.STDERR, response["error"])
     end
 
     ngx.arg[1] = cjson.encode(response)

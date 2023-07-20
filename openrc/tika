@@ -5,4 +5,5 @@ command_args="-jar -Dlog4j.configurationFile=/app/log4j2.xml /app/tika-server-st
               --config /app/tika-config.xml"
 command_background=true
 pidfile="/var/run/${RC_SVCNAME}.pid"
-error_log="/var/log/tikaserver.log"
+output_log="/var/log/tika.log"
+error_log="/var/log/tika.log"

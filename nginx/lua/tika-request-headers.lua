@@ -1,10 +1,14 @@
 -- use args to set headers
 local args = ngx.req.get_uri_args()
+local fetchKey = args["local_file_path"]
 
-if args["local_file_path"] then
+if fetchKey then
+    ngx.log(ngx.STDERR, "Got fetchkey " .. fetchKey)
     ngx.req.set_header("fetcherName", "fsf")
-    ngx.req.set_header("fetchKey", args["local_file_path"])
+    ngx.req.set_header("fetchKey", fetchKey)
 
-    -- remove args
-    ngx.req.set_uri_args({local_file_path=nil})
+    args.local_file_path = nil
+    ngx.req.set_uri_args(args)
+else
+    ngx.log(ngx.STDERR, "No fetch key")
 end

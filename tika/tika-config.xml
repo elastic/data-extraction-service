@@ -85,6 +85,9 @@
       <!-- enabling unsecure features content extraction 
            from specifying local file names -->
       <enableUnsecureFeatures>true</enableUnsecureFeatures>
+      <forkedJvmArgs>
+        <arg>-Dlog4j.configurationFile=/app/log4j2.xml</arg>
+      </forkedJvmArgs>
     </params>
   </server>
   <fetchers>
