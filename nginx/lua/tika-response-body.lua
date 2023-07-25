@@ -13,7 +13,11 @@ if eof then
     ngx.ctx.buffered = nil
 
     local cjson = require "cjson"
-    local response = {}
+    local response = {
+        _meta = {
+            ["X-ELASTIC:service"] = "tika"
+        }
+    }
 
     if ngx.status == 200 then
         local body = cjson.decode(whole)
@@ -42,8 +46,8 @@ if eof then
                 response["extracted_text"] = ""
             end
         else
-            response["parsed_by"] = body["X-TIKA:Parsed-By"]
             response["extracted_text"] = body["X-TIKA:content"]
+            response["_meta"]["X-ELASTIC:TIKA:parsed_by"] = body["X-TIKA:Parsed-By"]
         end
     elseif ngx.status == 422 then
         response["error"] = "Unprocessable Entity"
