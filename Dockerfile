@@ -10,7 +10,7 @@ RUN mkdir /run/openrc\
 
 # get services we need
 RUN apk add --no-cache openrc openjdk8 curl
-RUN wget https://downloads.apache.org/tika/2.8.0/tika-server-standard-2.8.0.jar
+RUN wget https://archive.apache.org/dist/tika/2.8.0/tika-server-standard-2.8.0.jar
 
 # file setup
 COPY runner.sh runner.sh
