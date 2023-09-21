@@ -1,4 +1,4 @@
-FROM openresty/openresty:alpine
+FROM openresty/openresty:1.21.4.1-0-alpine
 EXPOSE 8090
 
 WORKDIR /app
