@@ -61,7 +61,13 @@ For volume sharing, `/local/file/location:/app/files` can also be replaced with 
 
 ## Release
 
-To release a new version of Elastic Extraction Service, you need to go to [buildkite release pipeline](https://buildkite.com/elastic/data-extraction-service-release), click `New Build`, select `HEAD` for `Commit` and `main` for `Branch` and click `Create Build`. This will release a new version, build a docker image and push it to https://docker.elastic.co, and bump the version to the next minor.
+To release a new version of Elastic Extraction Service, you need to go to [buildkite release pipeline](https://buildkite.com/elastic/data-extraction-service-release), 
+1. Click `New Build`, 
+2. Select `HEAD` for `Commit`. 
+3. For `Branch`, choose `main` to release a new minor version, or choose the relevant maintenance branch (`x.y`) to release a new patch version.
+4. click `Create Build`. 
+
+This will release a new version, create a new maintenance branch (if applicable), build a docker image, and push it to https://docker.elastic.co, and bump the version file(s) to the next version(s).
 
 ## Logging
 
