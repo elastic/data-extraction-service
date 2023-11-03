@@ -59,6 +59,16 @@ $ docker run -p 8090:8090 -it --name extraction-service -v /local/file/location:
 
 For volume sharing, `/local/file/location:/app/files` can also be replaced with `docker-volume-name:/app/files` if you intend to share files between two docker containers. Check the [docker volume docs](https://docs.docker.com/storage/volumes/) for more details. Doing this will also require a [shared network](https://docs.docker.com/engine/reference/commandline/network_connect/).
 
+## Release
+
+To release a new version of Elastic Extraction Service, you need to go to [buildkite release pipeline](https://buildkite.com/elastic/data-extraction-service-release), 
+1. Click `New Build`, 
+2. Select `HEAD` for `Commit`. 
+3. For `Branch`, choose `main` to release a new minor version, or choose the relevant maintenance branch (`x.y`) to release a new patch version.
+4. click `Create Build`. 
+
+This will release a new version, create a new maintenance branch (if applicable), build a docker image, and push it to https://docker.elastic.co, and bump the version file(s) to the next version(s).
+
 ## Logging
 
 - Openresty logs: `/var/log/openresty.log`
