@@ -48,7 +48,7 @@ You can also find us in the `#search-enterprise` channel of the [Elastic Communi
 
 Enhancements that can be done after your initial contribution:
 
-1. Ensure the backend meets performance requirements we might request (memory usage, how fast it syncs 10k docs, etc.)
+1. Ensure the backend meets performance requirements we might request (memory usage, how fast it can process 10k docs, etc.)
 2. Update the README
 3. Small functional improvements
 
