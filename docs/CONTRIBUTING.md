@@ -9,16 +9,12 @@ Each time you make a valid contribution, you’ll earn points that increase your
 - [Reporting issues](#reporting-issues)
 - [Getting help](#getting-help)
 - [Types of contribution](#types-of-contribution)
-  - [Add new connector](#add-new-connector)
+  - [Add new extraction type](#add-new-extraction-type)
   - [Enhancements](#enhancements)
 - [Contribution Checklist](#contribution-checklist)
   - [Acceptance criteria](#acceptance-criteria)
-  - [Correct code organization](#correct-codefile-organization)
-  - [Proper async usage](#proper-async-usage)
-  - [Log verbosity](#log-verbosity)
-  - [Linting](#linting)
+  - [Adhering to the API contract](#adhering-to-the-api-contract)
   - [Testing](#testing)
-  - [Backport labels](#backport-labels)
 - [Pull request etiquette](#pull-request-etiquette)
   - [Why do we use a pull request workflow?](#why-do-we-use-a-pull-request-workflow)
   - [What constitutes a good PR?](#what-constitutes-a-good-pr)
@@ -44,12 +40,9 @@ You can also find us in the `#search-enterprise` channel of the [Elastic Communi
 
 ## Types of contribution
 
-### Add new connector
+### Add new extraction type
 
-👩🏻‍🤝‍👨🏿 Before investing time in developing a connector, [create an issue](https://github.com/elastic/data-extraction-service/issues/new/choose) and reach out to our team for initial feedback on the Extraction Service and the libraries it uses!
-
-// TODO check if needed
-To add a new extraction type see our [developing guide](./DEVELOPING.md#implementing-a-new-source).
+👩🏻‍🤝‍👨🏿 Before investing time in developing a new type, [create an issue](https://github.com/elastic/data-extraction-service/issues/new/choose) and reach out to our team for initial feedback on the Extraction Service and the libraries it uses!
 
 ### Enhancements
 
@@ -67,9 +60,7 @@ Enhancements that can be done after your initial contribution:
 
 To make sure we're building a great Extraction Service, we will be pretty strict on this checklist, and we will not allow changes
 
-Any patch with changes outside [connectors/sources](../connectors/sources) or [config.yml](../config.yml) and [requirements.txt](../requirements.txt) will be rejected.
-
-If you need changes in the framework, or you are not sure about how to do something, reach out to the [Ingestion team](https://github.com/orgs/elastic/teams/ingestion-team/members) and/or file an issue.
+If you need changes in the API contract, or you are not sure about how to do something, reach out to the [Ingestion team](https://github.com/orgs/elastic/teams/ingestion-team/members) and/or file an issue.
 
 
 ### Adhering to the API contract
