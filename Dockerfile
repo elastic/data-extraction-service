@@ -18,6 +18,7 @@ COPY tika/ .
 COPY nginx/ .
 COPY openrc/ /etc/init.d/
 COPY NOTICE.txt .
+COPY LICENSE .
 
 RUN ln -sf /app/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 RUN chmod +x /etc/init.d/tika
