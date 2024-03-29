@@ -1,4 +1,5 @@
-# Elastic Extraction Service
+[![Build status](https://badge.buildkite.com/530780aa3d763ae5f47e75d21d1dfecd240af640b24fc61455.svg)](https://buildkite.com/elastic/data-extraction-service)
+# Elastic Data Extraction Service
 
 For extracting data and metadata from binary documents.
 This docker image runs [openresty](https://openresty.org/en/getting-started.html) and [tika-server](https://cwiki.apache.org/confluence/display/TIKA/TikaServer) as background services, which is handled by [openrc](https://wiki.gentoo.org/wiki/OpenRC).
