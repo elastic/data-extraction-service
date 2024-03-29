@@ -126,3 +126,7 @@ To release a new version of Elastic Extraction Service, you need to go to [build
 This will release a new version, create a new maintenance branch (if applicable), build a docker image, and push it to https://docker.elastic.co, and bump the version file(s) to the next version(s).
 
 
+## See also
+- [Product Documentation](https://www.elastic.co/guide/en/enterprise-search/current/connectors-content-extraction.html#connectors-content-extraction-local)
+- [CONTRIBUTING](./docs/CONTRIBUTING.md)
+- [SUPPORT](./docs/SUPPORT.md)
