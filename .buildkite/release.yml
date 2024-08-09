@@ -2,7 +2,7 @@
 # $yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
 
 agents:
-  image: "docker.elastic.co/ci-agent-images/drivah:0.18.1"
+  image: "docker.elastic.co/ci-agent-images/drivah:0.18.1@sha256:8998b5bd4897f5e6604d35dbd6caf4af66d9dcc21d7853479ad7965237a86cba"
 
 steps:
   - label: ":github: update version and tag"
