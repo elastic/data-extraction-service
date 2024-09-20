@@ -15,7 +15,7 @@ For product documentation and version compatibility, see: [Connectors -> Content
 ## How it works
 
 The artifact producted by this repo is the `data-extraction-service` Docker image.
-See https://www.docker.elastic.co/r/enterprise-search/data-extraction-service for the full list of artifacts/versions.
+See https://www.docker.elastic.co/r/integrations/data-extraction-service for the full list of artifacts/versions.
 
 This docker image runs [openresty](https://openresty.org/en/getting-started.html) and [tika-server](https://cwiki.apache.org/confluence/display/TIKA/TikaServer) as background services, which is handled by [openrc](https://wiki.gentoo.org/wiki/OpenRC).
 
@@ -23,11 +23,11 @@ This docker image runs [openresty](https://openresty.org/en/getting-started.html
 ### Usage
 
 First, pull your image of choice.
-You can find the latest version by looking at https://www.docker.elastic.co/r/enterprise-search/data-extraction-service.
+You can find the latest version by looking at https://www.docker.elastic.co/r/integrations/data-extraction-service.
 
 ```sh
 # replace "<version>" with your selected version
-$ docker pull docker.elastic.co/enterprise-search/data-extraction-service:<version>
+$ docker pull docker.elastic.co/integrations/data-extraction-service:<version>
 ```
 
 Then, start a container from the image with:
@@ -36,7 +36,7 @@ $ docker run \
   -p 8090:8090 \
   -it \
   --name extraction-service \
-  docker.elastic.co/enterprise-search/data-extraction-service:<version>
+  docker.elastic.co/integrations/data-extraction-service:<version>
 ```
 
 You can validate that the service is running with:
@@ -79,7 +79,7 @@ $ docker run \
   -it \
   --name extraction-service \
   -v /local/file/location:/app/files \
-  docker.elastic.co/enterprise-search/data-extraction-service:<version>
+  docker.elastic.co/integrations/data-extraction-service:<version>
 ```
 
 For volume sharing, `/local/file/location:/app/files` can also be replaced with `docker-volume-name:/app/files` if you intend to share files between two docker containers. Check the [docker volume docs](https://docs.docker.com/storage/volumes/) for more details.
