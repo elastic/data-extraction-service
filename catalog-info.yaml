@@ -13,7 +13,7 @@ metadata:
       url: https://buildkite.com/elastic/data-extraction-service
 spec:
   type: buildkite-pipeline
-  owner: group:ingestion-team
+  owner: group:search-extract-and-transform
   system: buildkite
   implementation:
     apiVersion: buildkite.elastic.dev/v1
@@ -25,7 +25,7 @@ spec:
       repository: elastic/data-extraction-service
       pipeline_file: ".buildkite/pipeline.yml"
       teams:
-        ingestion-team:
+        search-extract-and-transform:
           access_level: MANAGE_BUILD_AND_READ
         everyone:
           access_level: READ_ONLY
@@ -42,7 +42,7 @@ metadata:
       url: "https://buildkite.com/elastic/data-extraction-service-release"
 spec:
   type: "buildkite-pipeline"
-  owner: "group:ingestion-team"
+  owner: "group:search-extract-and-transform"
   system: "buildkite"
   implementation:
     apiVersion: "buildkite.elastic.dev/v1"
@@ -61,5 +61,5 @@ spec:
       teams:
         everyone:
           access_level: "READ_ONLY"
-        ingestion-team:
+        search-extract-and-transform:
           access_level: MANAGE_BUILD_AND_READ
