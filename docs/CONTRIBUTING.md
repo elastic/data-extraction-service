@@ -60,7 +60,7 @@ Enhancements that can be done after your initial contribution:
 
 To make sure we're building a great Extraction Service, we will be pretty strict on this checklist, and we will not allow changes
 
-If you need changes in the API contract, or you are not sure about how to do something, reach out to the [Ingestion team](https://github.com/orgs/elastic/teams/ingestion-team/members) and/or file an issue.
+If you need changes in the API contract, or you are not sure about how to do something, reach out to the [Ingestion team](https://github.com/orgs/elastic/teams/search-extract-and-transform/members) and/or file an issue.
 
 
 ### Adhering to the API contract
