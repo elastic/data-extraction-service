@@ -4,6 +4,13 @@
 agents:
   image: "docker.elastic.co/ci-agent-images/drivah:0.28.0@sha256:855f50051b589c0da1ee8ce3377eef34dd1cfeb9ef1c0b60518660b6c90517ee"
 
+notify:
+  - if: 'build.branch =~ /^((main)|([0-9]+\.[0-9]+))\$/ && (build.state == "failed" || pipeline.started_passing)'
+    slack:
+      channels:
+        - "#search-et-alerts"
+      message: "${BUILDKITE_MESSAGE}"
+
 steps:
   - label: ":whale: Build docker image"
     command: "scripts/build-and-publish-docker-image.sh"
