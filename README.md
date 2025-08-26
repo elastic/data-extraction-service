@@ -7,7 +7,7 @@ The Data Extraction Service was built with [Elastic connectors](https://github.c
 While it can be used by other clients as well, its chief goal is to enable extracting text data from large binary documents "on the edge",
 and to provide a simple, stateless, load-balanceable, interface.
 
-If you have a need to extract text from office documents larger than 100mb ([see `http.max_content_length`](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html#http-settings)) 
+If you have a need to extract text from office documents larger than 100mb ([see `http.max_content_length`](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html#http-settings))
 before ingesting to Elasticsearch, the Data Extraction Service is for you.
 
 For product documentation and version compatibility, see: [Connectors -> Content Extraction](https://www.elastic.co/guide/en/enterprise-search/current/connectors-content-extraction.html#connectors-content-extraction-local).
@@ -113,25 +113,6 @@ To remove the detached container:
 $ docker stop extraction-service
 $ docker rm extraction-service
 ```
-
-
-## Releasing (employees only)
-
-To release a new version of Elastic Extraction Service, you need to run a special buildkite job. Follow the process below:
-
-1. Create a dev branch off of the branch you want to release from.
-  Branch off of `main` to release a new minor version, or branch off of the relevant maintenance branch (`x.y`) to release a new patch version.
-  Push your new branch to the origin remote.
-2. Go to the [buildkite release pipeline](https://buildkite.com/elastic/data-extraction-service-release)
-2. Click `New Build`, 
-2. Select `HEAD` for `Commit`. 
-3. For `Branch`, select your new dev branch
-4. click `Create Build`. 
-5. After the build succeeds, it will have created a few commits in your dev branch, and a git tag for the new version.
-6. Create a PR from your dev branch back into the branch you'd built it off of.
-7. Once that PR is merged, you're done
-
-This will release a new version, create a new maintenance branch (if applicable), build a docker image, and push it to https://docker.elastic.co, and bump the version file(s) to the next version(s).
 
 
 ## See also
