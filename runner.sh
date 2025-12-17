@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e
 
+# Clear OpenRC crashed/started state to allow fresh start
+rc-service tika zap 2>/dev/null || true
+rc-service openresty zap 2>/dev/null || true
+
 echo "Service 'All': Status"
 rc-status -a
 rc-update add tika boot
