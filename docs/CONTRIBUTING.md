@@ -86,7 +86,9 @@ $ curl -X PUT http://localhost:8090/extract_text/?service=foo \
 Tests not only verify and demonstrate that a new feature does what it is supposed to, but they also protect the codebase from unintentional future regressions.
 For this reason, it is important to both add tests when contributing new code, and to ensure that all tests (old and new) are passing.
 
-You can run the tests locally with `make e2e`.
+**Requirements:** Python 3.12 must be installed and available as `python3.12` on your system.
+
+You can run the tests locally with `make e2e`. To clean up the Python virtual environment, run `make clean`.
 
 
 ## Pull Request Etiquette
