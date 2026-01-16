@@ -5,7 +5,12 @@
 # project
 lib/*
 bin/*
-!test/log/*.log
+pyvenv.cfg
 
 # mac
 .DS_Store
+
+
+# test output
+tests/log
+tests/__pycache__

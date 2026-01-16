@@ -1,12 +1,16 @@
-.PHONY: test
-
+.PHONY: e2e clean
 
 current_dir = $(shell pwd)
 
-bin/python:
-	python3 -m venv .
-	bin/pip install -r tests-requirements.txt
+PYTHON = python3.12
 
+bin/python: tests-requirements.txt
+	$(PYTHON) -m venv .
+	bin/pip install -r tests-requirements.txt
+	touch bin/python
+
+clean:
+	rm -rf bin lib include pyvenv.cfg
 
 e2e: bin/python
 	- docker stop extraction-service
