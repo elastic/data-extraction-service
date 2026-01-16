@@ -10,7 +10,7 @@ RUN mkdir /run/openrc\
 
 # get services we need
 RUN apk add --no-cache openrc openjdk17-jre-headless curl
-RUN wget https://archive.apache.org/dist/tika/3.2.2/tika-server-standard-3.2.2.jar
+RUN wget https://archive.apache.org/dist/tika/3.2.3/tika-server-standard-3.2.3.jar
 
 # file setup
 COPY runner.sh runner.sh

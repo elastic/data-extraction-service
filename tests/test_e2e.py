@@ -65,6 +65,7 @@ async def test_service_running():
         ("sample.rtf", "org.apache.tika.parser.microsoft.rtf.RTFParser"),
         ("sample.pptx", "org.apache.tika.parser.microsoft.ooxml.OOXMLParser"),
         ("sample.docx", "org.apache.tika.parser.microsoft.ooxml.OOXMLParser"),
+        ("xfa_sample.pdf", "org.apache.tika.parser.pdf.PDFParser"),
     ]
 )
 async def test_extraction_parsed_correctly(file_name, expected_parser):
