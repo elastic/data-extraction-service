@@ -13,4 +13,9 @@ notify:
 
 steps:
   - label: ":whale: Build docker image"
+    if: 'build.branch !~ /^((main)|([0-9]+\.[0-9]+))\$/'
     command: "scripts/build-and-publish-docker-image.sh"
+
+  - label: ":whale: Build and publish docker image"
+    if: 'build.branch =~ /^((main)|([0-9]+\.[0-9]+))\$/'
+    command: "scripts/build-and-publish-docker-image.sh --push"
