@@ -95,6 +95,40 @@ You can find them at:
 - Openresty logs: `/var/log/openresty.log`
 - Tikaserver java logs: `/var/log/tika.log`
 
+### FIPS
+
+The Data Extraction Service can be configured for FIPS by using a FIPS-validated JVM and configuring the appropriate security providers.
+
+#### Environment Variables for FIPS Configuration
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `JAVA_HOME` | Path to FIPS-enabled Java installation | System default |
+| `JAVA_OPTS` | JVM options for main Tika process (e.g., security properties) | Empty |
+| `TIKA_FORKED_JAVA_OPTS` | JVM options for forked Tika child processes | Empty |
+| `TIKA_JAR_PATH` | Path to Tika server JAR | `/app/tika-server-standard-3.2.3.jar` |
+| `TIKA_CONFIG_PATH` | Path to Tika configuration XML | `/app/tika-config.xml` |
+| `TIKA_CLASSPATH` | Additional classpath (e.g., for FIPS provider JARs) | Empty |
+| `FIPS_MODE` | Set to `true` for FIPS mode logging | `false` |
+
+#### Example
+
+To use BouncyCastle FIPS as the security provider:
+
+```sh
+$ docker run \
+  -p 8090:8090 \
+  -v /path/to/bc-fips-1.0.2.4.jar:/app/lib/bc-fips.jar \
+  -v /path/to/fips.java.security:/app/fips.java.security \
+  -e JAVA_HOME=/usr/lib/jvm/java-17-openjdk \
+  -e TIKA_CLASSPATH=/app/lib/bc-fips.jar \
+  -e JAVA_OPTS="-Djava.security.properties=/app/fips.java.security" \
+  -e TIKA_FORKED_JAVA_OPTS="-Djava.security.properties=/app/fips.java.security" \
+  -e FIPS_MODE=true \
+  -it \
+  docker.elastic.co/integrations/data-extraction-service:<version>
+```
+
 ### Local Setup
 
 To build the docker image locally, run:
