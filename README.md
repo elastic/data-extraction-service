@@ -95,6 +95,61 @@ You can find them at:
 - Openresty logs: `/var/log/openresty.log`
 - Tikaserver java logs: `/var/log/tika.log`
 
+### FIPS
+
+The Data Extraction Service supports FIPS 140-2 compliance using BouncyCastle FIPS provider
+
+For FIPS configurations, you can use these environment variables:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `JAVA_HOME` | Path to FIPS-enabled Java installation | System default |
+| `JAVA_OPTS` | JVM options for main Tika process (e.g., security properties) | Empty |
+| `TIKA_FORKED_JAVA_OPTS` | JVM options for forked Tika child processes | Empty |
+| `TIKA_JAR_PATH` | Path to Tika server JAR | `/app/tika-server-standard-3.2.3.jar` |
+| `TIKA_CONFIG_PATH` | Path to Tika configuration XML | `/app/tika-config.xml` |
+| `TIKA_CLASSPATH` | Additional classpath (e.g., for FIPS provider JARs) | Empty |
+| `FIPS_MODE` | Set to `true` for FIPS mode logging | `false` |
+
+Example with BouncyCastle FIPS:
+
+```sh
+$ docker run \
+  -p 8090:8090 \
+  -v /path/to/bc-fips-1.0.2.5.jar:/app/lib/bc-fips.jar \
+  -v /path/to/bctls-fips-1.0.19.jar:/app/lib/bctls-fips.jar \
+  -v /path/to/fips.java.security:/app/fips.java.security \
+  -e JAVA_HOME=/usr/lib/jvm/java-17-openjdk \
+  -e TIKA_CLASSPATH=/app/lib/bc-fips.jar:/app/lib/bctls-fips.jar \
+  -e JAVA_OPTS="-Djava.security.properties=/app/fips.java.security" \
+  -e TIKA_FORKED_JAVA_OPTS="-Djava.security.properties=/app/fips.java.security" \
+  -e FIPS_MODE=true \
+  -it \
+  docker.elastic.co/integrations/data-extraction-service:<version>
+```
+
+#### How FIPS Mode Works
+
+When running in FIPS mode:
+
+1. **Security Providers**: The JVM is configured to use BouncyCastle FIPS (`bc-fips`) as the primary cryptographic provider, with BouncyCastle JSSE FIPS (`bctls-fips`) for TLS operations.
+
+2. **Forked Processes**: Apache Tika runs in "forked" mode where it spawns child processes for parsing. The `TIKA_FORKED_JAVA_OPTS` ensures these child processes also use FIPS-compliant cryptography.
+
+3. **Algorithm Restrictions**: The `fips.java.security` file disables non-FIPS algorithms (MD5, SHA1 for certain uses, weak key sizes, etc.).
+
+4. **Classpath Configuration**: The `TIKA_CLASSPATH` adds the FIPS provider JARs to the classpath, ensuring they're loaded before the default providers.
+
+#### Testing FIPS Mode
+
+Run the FIPS end-to-end tests:
+
+```sh
+$ make fips-e2e
+```
+
+This builds the FIPS image, starts the container, and runs the test suite with FIPS verification.
+
 ### Local Setup
 
 To build the docker image locally, run:
