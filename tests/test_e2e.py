@@ -127,7 +127,7 @@ async def test_extraction_with_corrupt_file_returns_422():
 @pytest.mark.asyncio
 async def test_fips_mode_enabled():
     """Verify that FIPS mode is properly configured when running FIPS image."""
-    container_name = "extraction-service-fips" if FIPS_MODE else "extraction-service"
+    container_name = "extraction-service"
 
     result = subprocess.run(
         ["docker", "logs", container_name], capture_output=True, text=True
