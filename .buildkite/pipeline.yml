@@ -1,9 +1,6 @@
 ---
 # $yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
 
-agents:
-  image: "docker.elastic.co/ci-agent-images/drivah:0.28.0@sha256:855f50051b589c0da1ee8ce3377eef34dd1cfeb9ef1c0b60518660b6c90517ee"
-
 notify:
   - if: 'build.branch =~ /^((main)|([0-9]+\.[0-9]+))\$/ && (build.state == "failed" || pipeline.started_passing)'
     slack:
@@ -12,20 +9,20 @@ notify:
       message: "${BUILDKITE_MESSAGE}"
 
 steps:
-  - label: ":docker: Build Docker images"
-    key: "build_images"
-    command: ".buildkite/run_build_images.sh"
-    artifact_paths:
-      - ".artifacts/extraction-service*.tar.gz"
-
   - label: "🔨 Run e2e test"
     key: "e2e_test"
-    depends_on: "build_images"
+    agents:
+      provider: aws
+      instanceType: t3.medium
+      imagePrefix: ci-amazonlinux-2
     command: ".buildkite/run_test.sh"
 
   - label: "🔨 Run FIPS e2e test"
     key: "fips_e2e_test"
-    depends_on: "build_images"
+    agents:
+      provider: aws
+      instanceType: t3.medium
+      imagePrefix: ci-amazonlinux-2
     command: ".buildkite/run_fips_test.sh"
 
   - label: ":whale: Build and publish docker image"
@@ -33,4 +30,6 @@ steps:
     depends_on:
       - "e2e_test"
       - "fips_e2e_test"
+    agents:
+      image: "docker.elastic.co/ci-agent-images/drivah:0.28.0@sha256:855f50051b589c0da1ee8ce3377eef34dd1cfeb9ef1c0b60518660b6c90517ee"
     command: "scripts/build-and-publish-docker-image.sh --push"
