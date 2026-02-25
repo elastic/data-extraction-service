@@ -13,17 +13,27 @@ clean:
 	rm -rf bin lib include pyvenv.cfg
 
 e2e: bin/python
-	- docker stop extraction-service
-	- docker rm extraction-service
-	docker build --platform=linux/arm64 -t extraction-service .
-	docker run -v $(current_dir)/tests/samples:/app/files -d -p 8090:8090 -it --name extraction-service extraction-service
+	@if ! docker image inspect extraction-service >/dev/null 2>&1; then \
+		echo "extraction-service image not found, building..."; \
+		$(MAKE) build; \
+	fi
+	@echo "=== Running e2e tests ==="
+	docker run -v $(current_dir)/tests/samples:/app/files -d -p 8090:8090 --name extraction-service extraction-service
 	sleep 5
-	bin/python3 -m pytest tests/
+	bin/python3 -m pytest tests/ -v; ret=$$?; docker stop extraction-service; docker rm extraction-service; exit $$ret
 
 fips-e2e: bin/python
-	- docker stop extraction-service
-	- docker rm extraction-service
-	docker build --platform=linux/arm64 -f Dockerfile.fips -t extraction-service-fips .
-	docker run -v $(current_dir)/tests/samples:/app/files -d -p 8090:8090 -it --name extraction-service extraction-service-fips
+	@if ! docker image inspect extraction-service-fips >/dev/null 2>&1; then \
+		echo "extraction-service-fips image not found, building..."; \
+		$(MAKE) fips-build; \
+	fi
+	@echo "=== Running e2e tests in FIPS mode ==="
+	docker run -v $(current_dir)/tests/samples:/app/files -d -p 8090:8090 --name extraction-service extraction-service-fips
 	sleep 10
-	FIPS_MODE=true bin/python3 -m pytest tests/ -v
+	FIPS_MODE=true bin/python3 -m pytest tests/ -v; ret=$$?; docker stop extraction-service; docker rm extraction-service; exit $$ret
+
+fips-build:
+	docker build -f Dockerfile.fips -t extraction-service-fips .
+
+build:
+	docker build -t extraction-service .

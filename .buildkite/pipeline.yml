@@ -12,10 +12,25 @@ notify:
       message: "${BUILDKITE_MESSAGE}"
 
 steps:
-  - label: ":whale: Build docker image"
-    if: 'build.branch !~ /^((main)|([0-9]+\.[0-9]+))\$/'
-    command: "scripts/build-and-publish-docker-image.sh"
+  - label: ":docker: Build Docker images"
+    key: "build_images"
+    command: ".buildkite/run_build_images.sh"
+    artifact_paths:
+      - ".artifacts/extraction-service*.tar.gz"
+
+  - label: "🔨 Run e2e test"
+    key: "e2e_test"
+    depends_on: "build_images"
+    command: ".buildkite/run_test.sh"
+
+  - label: "🔨 Run FIPS e2e test"
+    key: "fips_e2e_test"
+    depends_on: "build_images"
+    command: ".buildkite/run_fips_test.sh"
 
   - label: ":whale: Build and publish docker image"
     if: 'build.branch =~ /^((main)|([0-9]+\.[0-9]+))\$/'
+    depends_on:
+      - "e2e_test"
+      - "fips_e2e_test"
     command: "scripts/build-and-publish-docker-image.sh --push"
