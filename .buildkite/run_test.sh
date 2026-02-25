@@ -6,7 +6,9 @@ set -euo pipefail
 echo "=== Loading pre-built Docker image ==="
 mkdir -p .artifacts
 buildkite-agent artifact download '.artifacts/extraction-service.tar.gz' .artifacts/ --step build_images
-docker load <.artifacts/extraction-service.tar.gz
-rm -f .artifacts/extraction-service.tar.gz
+gunzip .artifacts/extraction-service.tar.gz
+buildah pull oci-archive:.artifacts/extraction-service.tar
+rm -f .artifacts/extraction-service.tar
 
-make e2e
+echo "=== Starting extraction-service ==="
+drivah run .

@@ -6,7 +6,9 @@ set -euo pipefail
 echo "=== Loading pre-built FIPS Docker image ==="
 mkdir -p .artifacts
 buildkite-agent artifact download '.artifacts/extraction-service-fips.tar.gz' .artifacts/ --step build_images
-docker load <.artifacts/extraction-service-fips.tar.gz
-rm -f .artifacts/extraction-service-fips.tar.gz
+gunzip .artifacts/extraction-service-fips.tar.gz
+buildah pull oci-archive:.artifacts/extraction-service-fips.tar
+rm -f .artifacts/extraction-service-fips.tar
 
-make fips-e2e
+echo "=== Starting extraction-service (FIPS) ==="
+drivah run .
