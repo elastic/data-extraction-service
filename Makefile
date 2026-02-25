@@ -8,9 +8,9 @@ install-python:
 	@if ! command -v $(PYTHON) >/dev/null 2>&1; then \
 		echo "$(PYTHON) not found, installing..."; \
 		if command -v yum >/dev/null 2>&1; then \
-			yum install -y $(PYTHON) $(PYTHON)-pip; \
+			sudo yum install -y $(PYTHON) $(PYTHON)-pip; \
 		elif command -v apt-get >/dev/null 2>&1; then \
-			apt-get update && apt-get install -y $(PYTHON) $(PYTHON)-venv; \
+			sudo apt-get update && apt-get install -y $(PYTHON) $(PYTHON)-venv; \
 		fi; \
 	fi
 
