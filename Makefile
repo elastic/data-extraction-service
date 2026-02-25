@@ -7,10 +7,10 @@ PYTHON = python3.12
 install-python:
 	@if ! command -v $(PYTHON) >/dev/null 2>&1; then \
 		echo "$(PYTHON) not found, installing..."; \
-		if command -v yum >/dev/null 2>&1; then \
-			sudo yum install -y $(PYTHON) $(PYTHON)-pip; \
+		if command -v dnf >/dev/null 2>&1; then \
+			sudo dnf install -y $(PYTHON) $(PYTHON)-pip; \
 		elif command -v apt-get >/dev/null 2>&1; then \
-			sudo apt-get update && apt-get install -y $(PYTHON) $(PYTHON)-venv; \
+			sudo apt-get update && sudo apt-get install -y $(PYTHON) $(PYTHON)-venv; \
 		fi; \
 	fi
 
