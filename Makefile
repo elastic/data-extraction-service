@@ -1,8 +1,18 @@
-.PHONY: e2e fips-e2e clean
+.PHONY: e2e fips-e2e clean install-python
 
 current_dir = $(shell pwd)
 
 PYTHON = python3.12
+
+install-python:
+	@if ! command -v $(PYTHON) >/dev/null 2>&1; then \
+		echo "$(PYTHON) not found, installing..."; \
+		if command -v yum >/dev/null 2>&1; then \
+			yum install -y $(PYTHON) $(PYTHON)-pip; \
+		elif command -v apt-get >/dev/null 2>&1; then \
+			apt-get update && apt-get install -y $(PYTHON) $(PYTHON)-venv; \
+		fi; \
+	fi
 
 bin/python: tests-requirements.txt
 	$(PYTHON) -m venv .
