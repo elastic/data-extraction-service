@@ -14,7 +14,7 @@ steps:
     agents:
       provider: aws
       instanceType: t3.medium
-      imagePrefix: ci-amazonlinux-2023
+      imagePrefix: core-amazonlinux-2023
     command: ".buildkite/run_test.sh"
 
   - label: "🔨 Run FIPS e2e test"
@@ -22,7 +22,7 @@ steps:
     agents:
       provider: aws
       instanceType: t3.medium
-      imagePrefix: ci-amazonlinux-2023
+      imagePrefix: core-amazonlinux-2023
     command: ".buildkite/run_fips_test.sh"
 
   - label: ":whale: Build and publish docker image"
