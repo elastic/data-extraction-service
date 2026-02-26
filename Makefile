@@ -1,4 +1,4 @@
-.PHONY: e2e fips-e2e clean install-python
+.PHONY: e2e fips-e2e clean install-python venv
 
 current_dir = $(shell pwd)
 
@@ -14,15 +14,14 @@ install-python:
 		fi; \
 	fi
 
-bin/python: tests-requirements.txt
+venv: tests-requirements.txt
 	$(PYTHON) -m venv .
 	bin/pip install -r tests-requirements.txt
-	touch bin/python
 
 clean:
 	rm -rf bin lib include pyvenv.cfg
 
-e2e: bin/python
+e2e: venv
 	@if ! docker image inspect extraction-service >/dev/null 2>&1; then \
 		echo "extraction-service image not found, building..."; \
 		$(MAKE) build; \
@@ -32,7 +31,7 @@ e2e: bin/python
 	sleep 5
 	bin/python3 -m pytest tests/ -v; ret=$$?; docker stop extraction-service; docker rm extraction-service; exit $$ret
 
-fips-e2e: bin/python
+fips-e2e: venv
 	@if ! docker image inspect extraction-service-fips >/dev/null 2>&1; then \
 		echo "extraction-service-fips image not found, building..."; \
 		$(MAKE) fips-build; \
