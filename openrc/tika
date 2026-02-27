@@ -1,8 +1,39 @@
 #!/sbin/openrc-run
 
-command="java"
-command_args="-jar -Dlog4j.configurationFile=/app/log4j2.xml /app/tika-server-standard-3.2.3.jar
-              --config /app/tika-config.xml"
+# FIPS and Java configuration via environment variables
+# JAVA_HOME: Path to Java installation (default: system java)
+# TIKA_JAR_PATH: Path to Tika server JAR (default: /app/tika-server-standard-3.2.3.jar)
+# TIKA_CONFIG_PATH: Path to Tika config XML (default: /app/tika-config.xml)
+# JAVA_OPTS: Additional JVM options (e.g., for FIPS security properties)
+# TIKA_CLASSPATH: Additional classpath entries (e.g., for FIPS provider JARs)
+
+: "${JAVA_HOME:=}"
+: "${TIKA_JAR_PATH:=/app/tika-server-standard-3.2.3.jar}"
+: "${TIKA_CONFIG_PATH:=/app/tika-config.xml}"
+: "${JAVA_OPTS:=}"
+: "${TIKA_CLASSPATH:=}"
+
+# Determine java command
+if [ -n "$JAVA_HOME" ]; then
+    java_cmd="$JAVA_HOME/bin/java"
+else
+    java_cmd="java"
+fi
+
+# Build command arguments
+# Order: java [JAVA_OPTS] -Dlog4j... -jar jarfile --config configfile
+# Or with classpath: java [JAVA_OPTS] -Dlog4j... -cp classpath mainclass --config configfile
+if [ -n "$TIKA_CLASSPATH" ]; then
+    # When using custom classpath (e.g., for FIPS provider JARs)
+    # Main class for Tika server
+    main_class="org.apache.tika.server.core.TikaServerCli"
+    command_args="${JAVA_OPTS} -Dlog4j.configurationFile=/app/log4j2.xml -cp ${TIKA_CLASSPATH}:${TIKA_JAR_PATH} ${main_class} --config ${TIKA_CONFIG_PATH}"
+else
+    # Standard JAR execution
+    command_args="${JAVA_OPTS} -Dlog4j.configurationFile=/app/log4j2.xml -jar ${TIKA_JAR_PATH} --config ${TIKA_CONFIG_PATH}"
+fi
+
+command="$java_cmd"
 command_background=true
 pidfile="/var/run/${RC_SVCNAME}.pid"
 output_log="/var/log/tika.log"

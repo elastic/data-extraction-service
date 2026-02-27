@@ -1,0 +1,96 @@
+FROM openresty/openresty:1.27.1.2-0-alpine@sha256:acbf6c163eef0312e624dc8c24edc7e2f1d33bca77a9e4793714d8e4affab5c5
+EXPOSE 8090
+
+# FIPS configuration using BouncyCastle FIPS provider (FIPS 140-2 Certificate #3514)
+ENV TIKA_CLASSPATH=/app/lib/bc-fips.jar:/app/lib/bctls-fips.jar
+ENV JAVA_OPTS="-Djava.security.properties=/app/fips.java.security"
+ENV TIKA_FORKED_JAVA_OPTS="-Djava.security.properties=/app/fips.java.security"
+ENV FIPS_MODE=true
+
+WORKDIR /app
+
+# these fix various known issues, don't remove
+VOLUME /sys/fs/cgroup
+RUN mkdir /run/openrc \
+  && touch /run/openrc/softlevel
+
+# get services we need
+RUN apk add --no-cache openrc openjdk17-jre-headless curl
+RUN wget -q https://archive.apache.org/dist/tika/3.2.3/tika-server-standard-3.2.3.jar
+
+# Get BouncyCastle FIPS jars
+RUN mkdir -p /app/lib && \
+  wget -q -O /app/lib/bc-fips.jar https://repo1.maven.org/maven2/org/bouncycastle/bc-fips/1.0.2.5/bc-fips-1.0.2.5.jar && \
+  wget -q -O /app/lib/bctls-fips.jar https://repo1.maven.org/maven2/org/bouncycastle/bctls-fips/1.0.19/bctls-fips-1.0.19.jar
+
+# Create FIPS security properties
+RUN cat <<'EOF' > /app/fips.java.security
+security.provider.1=org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider C:HYBRID;ENABLE{All};
+security.provider.2=org.bouncycastle.jsse.provider.BouncyCastleJsseProvider fips:BCFIPS
+security.provider.3=SUN
+security.provider.4=SunJGSS
+securerandom.source=file:/dev/urandom
+securerandom.strongAlgorithms=NativePRNGBlocking:SUN,DRBG:SUN
+securerandom.drbg.config=
+login.configuration.provider=sun.security.provider.ConfigFile
+policy.provider=sun.security.provider.PolicyFile
+policy.expandProperties=true
+policy.allowSystemProperty=true
+policy.ignoreIdentityScope=false
+keystore.type=BCFKS
+keystore.type.compat=true
+package.access=sun.misc.,\
+               sun.reflect.
+package.definition=sun.misc.,\
+                   sun.reflect.
+security.overridePropertiesFile=true
+ssl.KeyManagerFactory.algorithm=PKIX
+ssl.TrustManagerFactory.algorithm=PKIX
+networkaddress.cache.negative.ttl=10
+krb5.kdc.bad.policy = tryLast
+jdk.certpath.disabledAlgorithms=MD2, MD5, SHA1 jdkCA & usage TLSServer, \
+    RSA keySize < 1024, DSA keySize < 1024, EC keySize < 224
+jdk.jar.disabledAlgorithms=MD2, MD5, RSA keySize < 1024, \
+      DSA keySize < 1024
+jdk.tls.disabledAlgorithms=SSLv3, RC4, MD5withRSA, DH keySize < 1024, \
+    EC keySize < 224, DES40_CBC, RC4_40, 3DES_EDE_CBC
+jdk.tls.legacyAlgorithms= \
+        K_NULL, C_NULL, M_NULL, \
+        DH_anon, ECDH_anon, \
+        RC4_128, RC4_40, DES_CBC, DES40_CBC, \
+        3DES_EDE_CBC
+jdk.tls.keyLimits=AES/GCM/NoPadding KeyUpdate 2^37
+crypto.policy=unlimited
+jdk.xml.dsig.secureValidationPolicy=\
+    disallowAlg http://www.w3.org/TR/1999/REC-xslt-19991116,\
+    disallowAlg http://www.w3.org/2001/04/xmldsig-more#rsa-md5,\
+    disallowAlg http://www.w3.org/2001/04/xmldsig-more#hmac-md5,\
+    disallowAlg http://www.w3.org/2001/04/xmldsig-more#md5,\
+    maxTransforms 5,\
+    maxReferences 30,\
+    disallowReferenceUriSchemes file http https,\
+    minKeySize RSA 1024,\
+    minKeySize DSA 1024,\
+    minKeySize EC 224,\
+    noDuplicateIds,\
+    noRetrievalMethodLoops
+jceks.key.serialFilter = java.base/java.lang.Enum;java.base/java.security.KeyRep;\
+  java.base/java.security.KeyRep$Type;java.base/javax.crypto.spec.SecretKeySpec;!*
+EOF
+
+# file setup
+COPY runner.sh runner.sh
+COPY tika/ .
+COPY nginx/ .
+COPY openrc/ /etc/init.d/
+COPY NOTICE.txt .
+COPY LICENSE .
+
+RUN ln -sf /app/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+RUN chmod +x /etc/init.d/tika
+RUN chmod +x /etc/init.d/openresty
+
+HEALTHCHECK CMD curl --fail http://localhost:8090/ping/ || exit 1
+
+# run tika and openresty as services
+CMD ["/bin/sh", "-C", "runner.sh"]
