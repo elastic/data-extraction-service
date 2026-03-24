@@ -6,7 +6,7 @@ set -e
 # =============================================================================
 # Environment variables for FIPS compliance:
 #   JAVA_HOME              - Path to Java installation (default: system java)
-#   TIKA_JAR_PATH          - Path to Tika server JAR (default: /app/tika-server-standard-3.2.3.jar)
+#   TIKA_JAR_PATH          - Path to Tika server JAR (default: /app/tika-server-standard-3.3.0.jar)
 #   TIKA_CONFIG_PATH       - Path to Tika config XML (default: /app/tika-config.xml)
 #   JAVA_OPTS              - Additional JVM options for main process
 #   TIKA_CLASSPATH         - Additional classpath entries (e.g., FIPS provider JARs)
@@ -22,7 +22,7 @@ set -e
 
 # Default values
 : "${JAVA_HOME:=}"
-: "${TIKA_JAR_PATH:=/app/tika-server-standard-3.2.3.jar}"
+: "${TIKA_JAR_PATH:=/app/tika-server-standard-3.3.0.jar}"
 : "${TIKA_CONFIG_PATH:=/app/tika-config.xml}"
 : "${JAVA_OPTS:=}"
 : "${TIKA_FORKED_JAVA_OPTS:=}"

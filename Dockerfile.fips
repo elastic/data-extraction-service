@@ -16,7 +16,7 @@ RUN mkdir /run/openrc \
 
 # get services we need
 RUN apk add --no-cache openrc openjdk17-jre-headless curl
-RUN wget -q https://archive.apache.org/dist/tika/3.2.3/tika-server-standard-3.2.3.jar
+RUN wget -q https://archive.apache.org/dist/tika/3.3.0/tika-server-standard-3.3.0.jar
 
 # Get BouncyCastle FIPS jars
 RUN mkdir -p /app/lib && \

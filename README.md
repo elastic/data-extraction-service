@@ -106,7 +106,7 @@ For FIPS configurations, you can use these environment variables:
 | `JAVA_HOME` | Path to FIPS-enabled Java installation | System default |
 | `JAVA_OPTS` | JVM options for main Tika process (e.g., security properties) | Empty |
 | `TIKA_FORKED_JAVA_OPTS` | JVM options for forked Tika child processes | Empty |
-| `TIKA_JAR_PATH` | Path to Tika server JAR | `/app/tika-server-standard-3.2.3.jar` |
+| `TIKA_JAR_PATH` | Path to Tika server JAR | `/app/tika-server-standard-3.3.0.jar` |
 | `TIKA_CONFIG_PATH` | Path to Tika configuration XML | `/app/tika-config.xml` |
 | `TIKA_CLASSPATH` | Additional classpath (e.g., for FIPS provider JARs) | Empty |
 | `FIPS_MODE` | Set to `true` for FIPS mode logging | `false` |
