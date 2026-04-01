@@ -1,4 +1,4 @@
-FROM openresty/openresty:1.27.1.2-0-alpine@sha256:acbf6c163eef0312e624dc8c24edc7e2f1d33bca77a9e4793714d8e4affab5c5
+FROM openresty/openresty:1.29.2.3-0-alpine@sha256:9d1455cbd91d7c748262157bc7f53f5308af7137b5bad9956a205be9d4c24433
 EXPOSE 8090
 
 # FIPS configuration using BouncyCastle FIPS provider (FIPS 140-2 Certificate #3514)
