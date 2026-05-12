@@ -2,7 +2,7 @@
 # $yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
 
 agents:
-  image: "docker.elastic.co/ci-agent-images/drivah:0.28.0@sha256:855f50051b589c0da1ee8ce3377eef34dd1cfeb9ef1c0b60518660b6c90517ee"
+  image: "docker.elastic.co/ci-agent-images/drivah:0.30.1@sha256:111c247ae608d7a99cfae0521eb77f2a603ce87da60f07292a35d50b3f5bf503"
 
 notify:
   - if: 'build.branch =~ /^((main)|([0-9]+\.[0-9]+))\$/ && (build.state == "failed" || pipeline.started_passing)'
