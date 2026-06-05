@@ -1,4 +1,4 @@
-FROM openresty/openresty:1.27.1.2-0-alpine@sha256:acbf6c163eef0312e624dc8c24edc7e2f1d33bca77a9e4793714d8e4affab5c5
+FROM openresty/openresty:1.31.1.1-0-alpine@sha256:23520ed7708e21bbc49229eae9bb1baf4ed915a262f84a9235ebf47fbf9cc3ac
 EXPOSE 8090
 
 WORKDIR /app
