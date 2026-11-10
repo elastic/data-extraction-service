@@ -31,5 +31,5 @@ steps:
       - "e2e_test"
       - "fips_e2e_test"
     agents:
-      image: "docker.elastic.co/ci-agent-images/drivah:0.28.0@sha256:855f50051b589c0da1ee8ce3377eef34dd1cfeb9ef1c0b60518660b6c90517ee"
+      image: "docker.elastic.co/ci-agent-images/drivah:0.32.0@sha256:1c55634fa99f54d9e8b3fc966a740e98db63bc3f24233b6e15a13c0c1d1cd915"
     command: "scripts/build-and-publish-docker-image.sh --push"
